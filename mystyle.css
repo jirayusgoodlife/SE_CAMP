@@ -1,0 +1,96 @@
+/*
+Comment
+*/
+
+
+h1 {
+    font-family: 'TH SarabunPSK', Arial, sans-serif;
+    font-size: 36pt;
+}
+
+.myfont{
+ font-family: 'Times New Roman', Times, serif;
+}
+.coRed{
+    color: #ff22ff;
+    color:rgb(0,255,0);
+    color: hsl(9, 50%, 50%);
+}
+
+#myP{
+    font-size: 48pt;
+}
+
+.h1{
+    font-size: 16pt;
+}
+
+
+
+.box {
+  width: 400px;
+  height: 400px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(88, 90, 88);
+  text-align: center;
+  border: 5px dashed rgb(0, 255, 0);
+  padding-top: 10px;
+  margin: 50px 25px;
+
+  /* Center text vertically and horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box:hover {
+  background-color: rgb(118, 11, 82);
+  /* Add box shadow on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+a{
+    color:#ff0000
+}
+a:link{
+    color:#ff0000
+}
+
+ul{
+    list-style: square inside url('https://upload.wikimedia.org/wikipedia/commons/b/b9/Youtube_loading_symbol_1_(wobbly).gif');
+}
+
+p.normal {
+  font-style: normal;
+  font-weight: bold;
+}
+.normal.font16{
+    font-size: 16pt;
+    font-style: normal;
+    font-weight: bold;
+}
+p.italic {
+  font-style: italic;
+  font-weight: bold;
+}
+
+div > div > p {
+    font-size: larger;
+    font-weight: bold;
+}
+
+div > p {
+    font-size: smaller;
+    font-weight: bold;
+}
+
+
+.box2{
+    position: relative;
+    left: 30px;
+    border: 3px solid #73AD21;
+}
+div + p {
+  background-color: yellow;
+}
