@@ -19,7 +19,8 @@ Route::get('/', function () {
     return view('welcome'); // welcome.blade.php
 });
 
-// use Illuminate\Http;
+// use Illuminate\Http\Request;
+
 Route::get('/my-route', function(){
     // return view('myroute');
     //        Key    =>  Value
