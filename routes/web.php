@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\C_titles;
 use App\Http\Controllers\MyController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +20,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('titles', C_titles::class);
+Route::get('/register', function(){
+    session(['key' => 'value2']);
+    return view('register');
+});
+
+Route::get('/login', function(){
+    return view('login');
+})->name('login');
+
+Route::post('/register', function(Request $req){
+    $user = new User();
+    $user->name = $req->input('user_name');
+    $user->email = $req->input('user_email');
+    $user->password = Hash::make($req->input('user_password'));
+    $user->save();
+    return redirect('/login');
+});
+
+Route::post('login', function(Request $req){
+    $email = $req->input('user_email');
+    $password = $req->input('user_password');
+    if(Auth::attempt(['email' => $email, 'password' => $password])){
+        return view('home');
+    } else {
+        return redirect('/login');
+    }
+
+});
+
+Route::get('logout', function(){
+    session()->flush();
+    Auth::logout();
+    return Redirect('login');
+});
+
+Route::resource('titles', C_titles::class)->middleware('auth');
 
 Route::get('/my-controller', [MyController::class, 'index']);
 
