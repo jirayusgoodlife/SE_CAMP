@@ -1,7 +1,80 @@
 @extends('layouts.default')
 
 @section('title', 'Titles')
+@section('js')
+    <script>
+        function deleteme(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                            method: "POST",
+                            url: "/titles/" + id,
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                _method: "DELETE"
+                            }
+                        })
+                        .done(function() {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                            getData();
+                        });
+                }
+            });
+        }
 
+        function getData() {
+
+            var value_my_tbody = `<tr>
+                                        <td colspan="4" style="text-align: center;">
+                                            <img src="{{ url('/assets/dist/img/loading.gif') }}" />
+                                        </td>
+                                    </tr>`
+            $('#my_tbody').html(value_my_tbody)
+            value_my_tbody = ``
+            setTimeout(() => {
+                $.ajax({
+                        method: "GET",
+                        url: "api/titles/"
+                    })
+                    .done(function(data) {
+                        console.log("data", data[0].tit_id)
+                        data.forEach((val, index) => {
+                            value_my_tbody += `<tr>
+                                        <td>${index+1}.</td>
+                                        <td>${val.tit_name}</td>
+                                        <td>
+                                            ${val.tit_is_active}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url('/titles/') }}/${val.tit_id}"
+                                                class="btn btn-warning">แก้ไข</a>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="deleteme(${val.tit_id})">ลบ</button>
+                                        </td>
+                                    </tr>`;
+                        })
+                        $('#my_tbody').html(value_my_tbody)
+                    })
+            }, 2000);
+
+
+
+        }
+        getData();
+    </script>
+@endsection
 @section('content')
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -9,6 +82,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">SE CAMP : {{ session('key') }} : {{ Auth::user()->id }}</h1>
+                    <button class="btn btn-primary" onclick="deleteme()">Test</button>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -82,25 +156,8 @@
                                         <th>เครื่องมือ</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach($titles as $index => $title) {?>
-                                    <tr>
-                                        <td>{{ $index + 1 }}.</td>
-                                        <td>{{ $title->tit_name }}</td>
-                                        <td>
-                                            {{ $title->tit_is_active }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ url('/titles/' . $title->tit_id) }}"
-                                                class="btn btn-warning">แก้ไข</a>
-                                            <form method="post" action="/titles/{{ $title->tit_id }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">ลบ</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php } ?>
+                                <tbody id="my_tbody">
+
                                 </tbody>
                             </table>
                         </div>

@@ -97,6 +97,6 @@ class C_titles extends Controller
         //.
          $m_titles = M_titles::find($id);
          $m_titles->delete();
-          return Redirect::to('/titles');
+          //return Redirect::to('/titles');
     }
 }
