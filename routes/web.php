@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\C_FileUpload;
 use App\Http\Controllers\C_titles;
 use App\Http\Controllers\MyAuth;
 use App\Http\Controllers\MyController;
@@ -42,6 +43,17 @@ Route::resource('/my-controller4', MyController::class);
 Route::get('/', function () {
     return view('welcome'); // welcome.blade.php
 });
+
+Route::get('/token', function (Request $request) {
+$token = $request->session()->token();
+
+$token = csrf_token();
+
+ return $token;
+});
+
+Route::get('/file', [C_FileUpload::class, 'index']);
+Route::post('/upload-file', [C_FileUpload::class, 'fileUpload']);
 
 // use Illuminate\Http\Request;
 
