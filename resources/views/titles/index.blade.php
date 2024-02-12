@@ -56,6 +56,7 @@
                                         <td>${val.tit_name}</td>
                                         <td>
                                             ${val.tit_is_active}
+                                            <img src="{{ url('/storage') }}/${val.tit_image.replace('public/','')}">
                                         </td>
                                         <td>
                                             <a href="{{ url('/titles/') }}/${val.tit_id}"
@@ -81,8 +82,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">SE CAMP : {{ session('key') }} : {{ Auth::user()->id }}</h1>
-                    <button class="btn btn-primary" onclick="deleteme()">Test</button>
+                    <h1 class="m-0">SE CAMP</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -108,7 +108,7 @@
                         <!-- form start -->
                         <form action="/titles<?php if (isset($title_id)) {
                             echo '/' . $title_id->tit_id;
-                        } ?>" method="post">
+                        } ?>" method="post" enctype="multipart/form-data">
                             <?php if (isset($title_id)) { ?>
                             @method('PUT')
                             <?php } ?>
@@ -126,6 +126,16 @@
                                                 $title_id->tit_is_active == 1){?> checked
                                         <?php }?> class="form-check-input" id="exampleCheck1">
                                     <label class="form-check-label" for="exampleCheck1">ใช้งาน</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">File input</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="tit_image" class="custom-file-input"
+                                                id="exampleInputFile">
+                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-body -->

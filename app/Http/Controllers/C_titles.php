@@ -44,6 +44,7 @@ class C_titles extends Controller
         $m_titles = new M_titles();
         $m_titles->tit_name = $tit_name;
         $m_titles->tit_is_active = $tit_is_active;
+        $m_titles->tit_image = $request->file('tit_image')->store('public/titles');
         $m_titles->save();
         // use Illuminate\Support\Facades\Redirect;
         return Redirect::to('/titles');
